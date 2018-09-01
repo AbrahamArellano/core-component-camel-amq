@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd        http://camel.apache.org/schema/spring       http://camel.apache.org/schema/spring/camel-spring.xsd">
+    xmlns:cxf="http://camel.apache.org/schema/cxf"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="             http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd             http://camel.apache.org/schema/spring            http://camel.apache.org/schema/spring/camel-spring.xsd     http://camel.apache.org/schema/cxf http://camel.apache.org/schema/cxf/camel-cxf.xsd">
     <!-- Configuration of the AMQ component -->
     <bean class="org.apache.activemq.camel.component.ActiveMQComponent" id="activemq">
         <property name="brokerURL" value="tcp://broker-amq-tcp:61616"/>
@@ -19,7 +20,11 @@
           The amq component ensures to use the broker in the kubernetes cluster.
         -->
         <route id="generate-order-route" streamCache="true">
+            <!-- 
             <from id="route-timer" uri="timer:order?period=3000"/>
+             -->
+            <from id="rsEndpoint" uri="cxfrs://http://0.0.0.0:8080?resourceClasses=org.redhat.fuse.services.RestRequestService&amp;bindingStyle=SimpleConsumer&amp;provider=jsonProvider"/>
+            <log id="cxf-log-order" message="Incoming REST request"/>
             <bean id="route-new-order" method="generateOrder" ref="orderGenerator"/>
             <setHeader headerName="Exchange.FILE_NAME" id="route-set-order-header">
                 <!-- defining the header containing a simulated file name -->
@@ -27,7 +32,6 @@
             </setHeader>
             <log id="route-log-order" message="Generating order ${file:name}"/>
             <to id="route-to-incoming-orders" uri="amqp:queue:incomingOrders"/>
-            <to id="rsEndpoint" uri="cxfrs:beanId:rsServer"/>
         </route>
         <!--
           This route consumes messages from the JMS queue incomingOrders on the ActiveMQ broker within the ESB.
