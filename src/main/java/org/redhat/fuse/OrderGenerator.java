@@ -16,7 +16,6 @@
 package org.redhat.fuse;
 
 import java.io.InputStream;
-import java.util.Random;
 
 import org.apache.camel.Exchange;
 import org.apache.log4j.Logger;
