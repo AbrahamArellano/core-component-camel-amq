@@ -15,11 +15,11 @@
  */
 package org.redhat.fuse;
 
-import org.apache.camel.CamelContext;
-import org.springframework.stereotype.Component;
-
 import java.io.InputStream;
 import java.util.Random;
+
+import org.apache.camel.Exchange;
+import org.springframework.stereotype.Component;
 
 /**
  * To generate random orders
@@ -30,12 +30,13 @@ public class OrderGenerator {
     private int count = 1;
     private Random random = new Random();
 
-    public InputStream generateOrder(CamelContext camelContext) {
+    public InputStream generateOrder(Exchange exchange) {
+    	System.out.println(exchange.getIn().getHeaders());
         int number = random.nextInt(5) + 1;
 
         String name = "data/order" + number + ".xml";
 
-        return camelContext.getClassResolver().loadResourceAsStream(name);
+        return exchange.getContext().getClassResolver().loadResourceAsStream(name);
     }
 
     public String generateFileName() {
