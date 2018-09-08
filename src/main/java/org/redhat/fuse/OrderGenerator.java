@@ -31,7 +31,7 @@ public class OrderGenerator {
     private Random random = new Random();
 
     public InputStream generateOrder(Exchange exchange) {
-    	System.out.println(exchange.getIn().getHeaders());
+    	System.out.println("OrderGenerator - headers: " + exchange.getIn().getHeaders());
         int number = random.nextInt(5) + 1;
 
         String name = "data/order" + number + ".xml";
