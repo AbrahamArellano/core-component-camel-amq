@@ -31,7 +31,6 @@ public class OrderGenerator {
 	private static final Logger LOG = Logger.getLogger(OrderGenerator.class);
     private static final String ORDER_ID = "orderId";
 	private int count = 1;
-    private Random random = new Random();
 
     public InputStream generateOrder(Exchange exchange) {
         int number = exchange.getIn().getHeader(ORDER_ID, Integer.class);
