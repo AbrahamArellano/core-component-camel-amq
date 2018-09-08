@@ -9,7 +9,7 @@ import javax.ws.rs.core.Response;
 
 @Path("/orders/")
 @Consumes(value="application/json")
-@Produces(value="application/json")
+@Produces(value="application/xml")
 public interface RestRequestService {
 
 	@GET
