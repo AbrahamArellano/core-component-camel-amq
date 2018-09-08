@@ -27,13 +27,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class OrderGenerator {
 
-    private int count = 1;
+    private static final String ORDER_ID = "orderId";
+	private int count = 1;
     private Random random = new Random();
 
     public InputStream generateOrder(Exchange exchange) {
-    	System.out.println("OrderGenerator - headers: " + exchange.getIn().getHeaders());
-        int number = random.nextInt(5) + 1;
+        int number = exchange.getIn().getHeader(ORDER_ID, Integer.class);
 
+    	System.out.println("OrderGenerator - orderId: " + number);
+    	
         String name = "data/order" + number + ".xml";
 
         return exchange.getContext().getClassResolver().loadResourceAsStream(name);
