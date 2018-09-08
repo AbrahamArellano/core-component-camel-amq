@@ -19,6 +19,7 @@ import java.io.InputStream;
 import java.util.Random;
 
 import org.apache.camel.Exchange;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 /**
@@ -27,6 +28,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class OrderGenerator {
 
+	private static final Logger LOG = Logger.getLogger(OrderGenerator.class);
     private static final String ORDER_ID = "orderId";
 	private int count = 1;
     private Random random = new Random();
@@ -34,7 +36,7 @@ public class OrderGenerator {
     public InputStream generateOrder(Exchange exchange) {
         int number = exchange.getIn().getHeader(ORDER_ID, Integer.class);
 
-    	System.out.println("OrderGenerator - orderId: " + number);
+        LOG.info("OrderGenerator - orderId: " + number);
     	
         String name = "data/order" + number + ".xml";
 
