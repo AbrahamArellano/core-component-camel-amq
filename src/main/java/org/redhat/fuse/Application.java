@@ -37,8 +37,8 @@ public class Application {
     @Bean(name = "amqp-component")
     AMQPComponent amqpComponent(AMQPConfiguration config) {
         //JmsConnectionFactory qpid = new JmsConnectionFactory(config.getUsername(), config.getPassword(), "amqp://"+ config.getHost() + ":" + config.getPort());
-    	System.out.println("Host: " +  config.getHost() +  " - Port: " + config.getPort());
-    	System.out.println("Username: " +  config.getUsername() +  " - Password: " + config.getPassword());
+//    	System.out.println("Host: " +  config.getHost() +  " - Port: " + config.getPort());
+//    	System.out.println("Username: " +  config.getUsername() +  " - Password: " + config.getPassword());
     	JmsConnectionFactory qpid = new JmsConnectionFactory(config.getUsername(), config.getPassword(), "amqp://"+ config.getHost() + ":" + config.getPort());
         qpid.setTopicPrefix("topic://");
 
