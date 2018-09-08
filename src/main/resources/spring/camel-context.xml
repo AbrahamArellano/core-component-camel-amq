@@ -24,7 +24,7 @@
             <from id="route-timer" uri="timer:order?period=3000"/>
              -->
             <from id="rsEndpoint" uri="cxfrs://http://0.0.0.0:8080?resourceClasses=org.redhat.fuse.services.RestRequestService&amp;bindingStyle=SimpleConsumer&amp;provider=jsonProvider"/>
-            <log id="cxf-log-order" message="Incoming REST request - id: ${header.orderId} - content: ${body}"/>
+            <log id="cxf-log-order" message="Incoming REST request - order id: ${header.orderId}"/>
             <bean id="route-new-order" method="generateOrder" ref="orderGenerator"/>
             <setHeader headerName="Exchange.FILE_NAME" id="route-set-order-header">
                 <!-- defining the header containing a simulated file name -->
